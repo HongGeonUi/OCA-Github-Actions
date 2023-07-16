@@ -1,0 +1,15 @@
+name: 'Issue Close Worklfows'
+
+on:
+  issue_comment:
+    types: [ created ]
+
+jobs:
+  comment-job:
+    name: 'Close Request'
+    if: github.event.issue.comments.body == "/close"
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Close Request
+      uses: peter-evans/close-issue@v3
