@@ -1,0 +1,20 @@
+name: 'GitHub Actions Test matrix3'
+
+on: [ 'push', 'pull_request' ]
+
+jobs:
+  first-job:
+    name: 'First Job'
+    if: github.event_name == 'pull_request'
+
+    strategy:
+      matrix:
+        os: [ 'windows-latest', 'macos-latest', 'ubuntu-latest' ]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Say Hello World from ${{ matrix.os }}
+      shell: bash
+      run: |
+        echo "Hello World on ${{ matrix.os }}"
