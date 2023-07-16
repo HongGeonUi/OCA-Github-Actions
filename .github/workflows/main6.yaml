@@ -1,0 +1,15 @@
+name: 'GitHub Actions Test6'
+
+on: push
+
+jobs:
+  first-job:
+    name: 'First Job'
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Show secret
+      shell: bash
+      run: |
+        echo ${{ secrets.HELLO }}
