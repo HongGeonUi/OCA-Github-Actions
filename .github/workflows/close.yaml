@@ -6,10 +6,10 @@ on:
 
 jobs:
   comment-job:
-    name: 'Close Request'
-    if: github.event.issue.comments.body == '/close'
+    name: 'Comment Job'
+    if: github.event.issue.comments.body == "/close"
     runs-on: ubuntu-latest
 
     steps:
-    - name: Close Request
+    - name: Close Issue
       uses: peter-evans/close-issue@v3
