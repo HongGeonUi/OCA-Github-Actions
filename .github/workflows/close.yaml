@@ -5,10 +5,30 @@ on:
     types: [ created ]
 
 jobs:
-  comment-job:
-    name: 'Comment Job'
+  close-issue-job:
+    name: Close Issue Job
+
     runs-on: ubuntu-latest
 
     steps:
-    - name: Closed Issue
-      uses: peter-evans/close-issue@v3
+      - name: Check Comment
+        id: check-comment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const comment = context.payload.comment.body;
+            const closeKeyword = '/close';
+            const close = comment.trim() === closeKeyword;
+            core.setOutput('closeissue', close.toString())
+      
+      - name: Close Comment
+        if: steps.check-comment.outputs.closeissue == 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.update({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'closed'
+            })
